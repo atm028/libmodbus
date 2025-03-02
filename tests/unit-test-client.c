@@ -110,7 +110,8 @@ int main(int argc, char *argv[])
             ip_or_device = "::1";
             break;
         case RTU:
-            ip_or_device = "/dev/ttyUSB1";
+            //ip_or_device = "/dev/ttyUSB1";
+            ip_or_device = "COM5";
             break;
         default:
             break;
@@ -122,7 +123,9 @@ int main(int argc, char *argv[])
     } else if (use_backend == TCP_PI) {
         ctx = modbus_new_tcp_pi(ip_or_device, "1502");
     } else {
-        ctx = modbus_new_rtu(ip_or_device, 115200, 'N', 8, 1);
+        ctx = modbus_new_rtu(ip_or_device, 2048000, 'N', 8, 1);
+        //ctx = modbus_new_rtu(ip_or_device, 1024000, 'N', 8, 1);
+        //ctx = modbus_new_rtu(ip_or_device, 921600, 'N', 8, 1);
     }
     if (ctx == NULL) {
         fprintf(stderr, "Unable to allocate libmodbus context\n");

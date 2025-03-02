@@ -53,6 +53,7 @@ int main(void)
     int fdmax;
 
     ctx = modbus_new_tcp("127.0.0.1", 1502);
+    //ctx = modbus_new_rtu("COM4", 1024000, 'N', 8, 1);
 
     mb_mapping =
         modbus_mapping_new(MODBUS_MAX_READ_BITS, 0, MODBUS_MAX_READ_REGISTERS, 0);
@@ -103,6 +104,7 @@ int main(void)
                 /* Handle new connections */
                 addrlen = sizeof(clientaddr);
                 memset(&clientaddr, 0, sizeof(clientaddr));
+                fprintf(stderr, "ADDRLEN: %d\n", addrlen);
                 newfd = accept(server_socket, (struct sockaddr *) &clientaddr, &addrlen);
                 if (newfd == -1) {
                     perror("Server accept() error");

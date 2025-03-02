@@ -24,8 +24,11 @@
 #endif
 // clang-format on
 
-#define SERVER_ID         17
+#define SERVER_ID         900
 #define INVALID_SERVER_ID 18
+
+#define REQUEST_SIZE 34
+#define RESPONSE_SIZE 19
 
 const uint16_t UT_BITS_ADDRESS = 0x130;
 const uint16_t UT_BITS_NB = 0x25;

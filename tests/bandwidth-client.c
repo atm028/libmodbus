@@ -72,9 +72,12 @@ int main(int argc, char *argv[])
     if (use_backend == TCP) {
         ctx = modbus_new_tcp("127.0.0.1", 1502);
     } else {
-        ctx = modbus_new_rtu("/dev/ttyUSB1", 115200, 'N', 8, 1);
+        ctx = modbus_new_rtu("COM5", 1024000, 'N', 8, 1);
+        //ctx = modbus_new_rtu("COM5", 921600, 'N', 8, 1);
+        //ctx = modbus_new_rtu("/dev/ttyUSB1", 115200, 'N', 8, 1);
         modbus_set_slave(ctx, 1);
     }
+
     if (modbus_connect(ctx) == -1) {
         fprintf(stderr, "Connection failed: %s\n", modbus_strerror(errno));
         modbus_free(ctx);

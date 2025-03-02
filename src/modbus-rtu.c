@@ -74,7 +74,7 @@ static const uint8_t table_crc_lo[] = {
  * internal slave ID in slave mode */
 static int _modbus_set_slave(modbus_t *ctx, int slave)
 {
-    int max_slave = (ctx->quirks & MODBUS_QUIRK_MAX_SLAVE) ? 255 : 247;
+    int max_slave = (ctx->quirks & MODBUS_QUIRK_MAX_SLAVE) ? 255 : 1000; //247;
 
     /* Broadcast address is 0 (MODBUS_BROADCAST_ADDRESS) */
     if (slave >= 0 && slave <= max_slave) {
@@ -1221,6 +1221,7 @@ modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop
         errno = EINVAL;
         return NULL;
     }
+    fprintf(stderr, "Baud rate: %d\n", baud);
 
     ctx = (modbus_t *) malloc(sizeof(modbus_t));
     if (ctx == NULL) {
@@ -1236,6 +1237,7 @@ modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop
         return NULL;
     }
     ctx_rtu = (modbus_rtu_t *) ctx->backend_data;
+    fprintf(stderr, "RTU is setup\n");
 
     /* Device name and \0 */
     ctx_rtu->device = (char *) malloc((strlen(device) + 1) * sizeof(char));
@@ -1244,6 +1246,7 @@ modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop
         errno = ENOMEM;
         return NULL;
     }
+    fprintf(stderr, "Device setup is done\n");
 
 #if defined(_WIN32)
     strcpy_s(ctx_rtu->device, strlen(device) + 1, device);
@@ -1274,6 +1277,7 @@ modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop
     /* Calculate estimated time in micro second to send one byte */
     ctx_rtu->onebyte_time =
         1000000 * (1 + data_bit + (parity == 'N' ? 0 : 1) + stop_bit) / baud;
+    fprintf(stderr, "onebyte_time is setup\n");
 
     /* The internal function is used by default to set RTS */
     ctx_rtu->set_rts = _modbus_rtu_ioctl_rts;
@@ -1284,5 +1288,6 @@ modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop
 
     ctx_rtu->confirmation_to_ignore = FALSE;
 
+    fprintf(stderr, "new rtu is setup, context return\n");
     return ctx;
 }

@@ -53,7 +53,9 @@ int main(int argc, char *argv[])
         modbus_tcp_accept(ctx, &s);
 
     } else {
-        ctx = modbus_new_rtu("/dev/ttyUSB0", 115200, 'N', 8, 1);
+        ctx = modbus_new_rtu("COM4", 1024000, 'N', 8, 1);
+        //ctx = modbus_new_rtu("COM4", 921600, 'N', 8, 1);
+        //ctx = modbus_new_rtu("/dev/ttyUSB0", 115200, 'N', 8, 1);
         modbus_set_slave(ctx, 1);
         modbus_connect(ctx);
     }

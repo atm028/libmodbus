@@ -73,7 +73,8 @@ int main(int argc, char *argv[])
             ip_or_device = "::1";
             break;
         case RTU:
-            ip_or_device = "/dev/ttyUSB0";
+            //ip_or_device = "/dev/ttyUSB0";
+            ip_or_device = "COM4";
             break;
         default:
             break;
@@ -87,8 +88,12 @@ int main(int argc, char *argv[])
         ctx = modbus_new_tcp_pi(ip_or_device, "1502");
         query = malloc(MODBUS_TCP_MAX_ADU_LENGTH);
     } else {
-        ctx = modbus_new_rtu(ip_or_device, 115200, 'N', 8, 1);
+        ctx = modbus_new_rtu(ip_or_device, 2048000, 'N', 8, 1);
+        //ctx = modbus_new_rtu(ip_or_device, 1024000, 'N', 8, 1);
+        //ctx = modbus_new_rtu(ip_or_device, 921600, 'N', 8, 1);
+        //ctx = modbus_new_rtu(ip_or_device, 115200, 'N', 8, 1);
         modbus_set_slave(ctx, SERVER_ID);
+        fprintf(stderr, "Modbus set slave is done\n");
         query = malloc(MODBUS_RTU_MAX_ADU_LENGTH);
     }
 
